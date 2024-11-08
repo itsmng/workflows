@@ -7,6 +7,7 @@ function plugin_workflows_install() {
    $classesToInstall = [
       'PluginWorkflowsConfig',
       'PluginWorkflowsProfile',
+      'PluginWorkflowsWorkflow',
    ];
 
    echo "<center>";
@@ -57,6 +58,7 @@ function plugin_workflows_uninstall() {
    $classesToUninstall = [
       'PluginWorkflowsConfig',
       'PluginWorkflowsProfile',
+      'PluginWorkflowsWorkflow',
    ];
 
    foreach ($classesToUninstall as $class) {

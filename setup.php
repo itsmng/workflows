@@ -26,7 +26,7 @@ function plugin_version_workflows() {
  * Initialize all classes and generic variables of the plugin
  */
 function plugin_init_workflows() {
-   global $PLUGIN_HOOKS, $CFG_GLPI;
+   global $PLUGIN_HOOKS;
 
    // Set the plugin CSRF compliance (required since GLPI 0.84)
    $PLUGIN_HOOKS['csrf_compliant']['workflows'] = true;
@@ -34,6 +34,10 @@ function plugin_init_workflows() {
    // Register profile rights
    Plugin::registerClass(PluginWorkflowsProfile::class, ['addtabon' => 'Profile']);
    $PLUGIN_HOOKS['change_profile']['workflows'] = [PluginWorkflowsProfile::class, 'changeProfile'];
+
+   if (Session::haveRight('plugin_workflows', READ)) {
+       $PLUGIN_HOOKS['menu_toadd']['workflows']['admin'] = PluginWorkflowsWorkflow::class;
+   }
 }
 
 /**
