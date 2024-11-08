@@ -162,6 +162,7 @@ class PluginWorkflowsProfile extends CommonDBTM {
                     UPDATE => __('Allow editing', 'pluginworkflows'),
                     READ => __('Allow viewing', 'pluginworkflows'),
                     CREATE => __('Allow creating', 'pluginworkflows'),
+                    PURGE => __('Allow purging', 'pluginworkflows'),
                 ],
 				'default'   => 23
             ]

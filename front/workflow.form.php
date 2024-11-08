@@ -13,7 +13,7 @@ if (isset($_POST['add'])) {
    // Add a new Form
    Session::checkRight('entity', UPDATE);
    $newID = $workflow->add($_POST);
-   Html::redirect(Plugin::getWebDir('workflow') . '/front/workflow.php?id=' . $newID);
+   Html::redirect(Plugin::getWebDir('workflows') . '/front/workflow.form.php?id=' . $newID);
 
 } else if (isset($_POST['update'])) {
    // Edit an existing form

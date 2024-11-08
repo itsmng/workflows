@@ -102,6 +102,31 @@ class PluginWorkflowsWorkflow extends CommonDBTM
 
     function showForm()
     {
-        echo 'test';
+        $form = [
+            'action' => self::getFormURL(),
+            'itemtype' => self::getType(),
+            'content' => [
+                $this->getTypeName() => [
+                    'visible' => true,
+                    'inputs' => [
+                        __('Name') => [
+                            'type' => 'text',
+                            'name' => 'name',
+                            'value' => $this->fields['name'] ?? '',
+                            'col_lg' => 12,
+                            'col_md' => 12,
+                        ],
+                        __('Description') => [
+                            'type' => 'textarea',
+                            'name' => 'description',
+                            'value' => $this->fields['description'] ?? '',
+                            'col_lg' => 12,
+                            'col_md' => 12,
+                        ],
+                    ]
+                ]
+            ],
+        ];
+        renderTwigForm($form, '', $this->fields);
     }
 }
