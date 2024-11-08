@@ -34,10 +34,6 @@ function plugin_init_workflows() {
    // Register profile rights
    Plugin::registerClass(PluginWorkflowsProfile::class, ['addtabon' => 'Profile']);
    $PLUGIN_HOOKS['change_profile']['workflows'] = [PluginWorkflowsProfile::class, 'changeProfile'];
-
-   if (Session::haveRight('plugin_workflows_config', UPDATE)) {
-       $PLUGIN_HOOKS['config_page']['workflows'] = 'front/config.form.php';
-   }
 }
 
 /**

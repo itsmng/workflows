@@ -156,9 +156,9 @@ class PluginWorkflowsProfile extends CommonDBTM {
 		$rights = [
 			[
 				'itemtype'  => 'PluginWorkflowsProfile',
-				'label'     => __('Config update', 'pluginworkflows'),
-				'field'     => 'plugin_workflows_config',
-				'rights'    =>  [UPDATE => __('Allow editing', 'pluginworkflows')],
+				'label'     => __('Workflows', 'pluginworkflows'),
+				'field'     => 'plugin_workflows',
+				'rights'    =>  [UPDATE => __('Allow editing', 'pluginworkflows'), READ => __('Allow viewing', 'pluginworkflows')],
 				'default'   => 23
             ]
 		];
