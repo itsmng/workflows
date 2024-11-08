@@ -5,6 +5,8 @@
   "author": "Antoine Lemarchand <antoine.lemarchand@itsm-ng.com>",
   "license": "GPL-3.0",
   "dependencies": {
-    "bpmn-js": "^18.0.0"
+    "@bpmn-io/properties-panel": "^3.25.0",
+    "bpmn-js": "^18.0.0",
+    "bpmn-js-properties-panel": "^5.26.0"
   }
 }

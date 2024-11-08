@@ -125,7 +125,10 @@ SQL;
                         ],
                         __('Diagram', 'workflow') => [
                             'content' => <<<HTML
-                                <div id="canvas" style="height: 600px; width: 100%; border: 1px solid #ccc;"></div>
+                                <div id="bpmn-modeler" class="d-flex w-100">
+                                    <div id="canvas" class="flex-grow-1" style="height: 600px; border: 1px solid #ccc;"></div>
+                                    <div id="js-properties-panel" style="border: 1px solid #ccc;"></div>
+                                </div>
                             HTML,
                             'col_lg' => 12,
                             'col_md' => 12,
@@ -136,8 +139,11 @@ SQL;
         ];
         renderTwigForm($form, '', $this->fields);
         echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/diagram-js.css');
+        echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/bpmn-js.css');
         echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/bpmn-font/css/bpmn.css');
+        echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/@bpmn-io/properties-panel/dist/assets/properties-panel.css');
         echo Html::script(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/bpmn-modeler.development.js');
+        echo Html::script(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js-properties-panel/dist/bpmn-js-properties-panel.umd.js');
         echo Html::script(Plugin::getWebDir('workflows') . '/js/workflow.js');
     }
 }
