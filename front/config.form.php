@@ -1,16 +1,16 @@
 <?php
 include("../../../inc/includes.php");
-require_once(Plugin::getPhpDir('skeleton') . "/inc/config.class.php");
+require_once(Plugin::getPhpDir('workflows') . "/inc/config.class.php");
 
 $plugin = new Plugin();
 
-if($plugin->isActivated("skeleton")) {
-    $config = new PluginSkeletonConfig();
+if($plugin->isActivated("workflows")) {
+    $config = new PluginWorkflowsConfig();
     if(isset($_POST["update"])) {
-        Session::checkRight("plugin_skeleton_config", UPDATE);
+        Session::checkRight("plugin_workflows_config", UPDATE);
         $config::updateConfigValues($_POST);
     } else {
-        if (!Session::haveRight("plugin_skeleton_config", READ | UPDATE)) {
+        if (!Session::haveRight("plugin_workflows_config", READ | UPDATE)) {
             Html::displayRightError();
             return;
         }

@@ -2,22 +2,22 @@
 
 global $CFG_GLPI;
 // Version of the plugin (major.minor.bugfix)
-define('SKELETON_VERSION', '1.0.0');
+define('WORKFLOWS_VERSION', '1.0.0');
 
-define ('SKELETON_ITSMNG_MIN_VERSION', '2.0');
+define ('WORKFLOWS_ITSMNG_MIN_VERSION', '2.0');
 
 /**
  * Define the plugin's version and informations
  *
  * @return Array [name, version, author, homepage, license, minGlpiVersion]
  */
-function plugin_version_skeleton() {
+function plugin_version_workflows() {
    $requirements = [
-      'name'           => 'Skeleton Plugin',
-      'version'        => SKELETON_VERSION,
+      'name'           => 'Workflows Plugin',
+      'version'        => WORKFLOWS_VERSION,
       'author'         => 'ITSMNG Team',
-      'homepage'       => 'https://github.com/itsmng/plugin-skeleton',
-      'license'        => '<a href="../plugins/plugin-skeleton/LICENSE" target="_blank">GPLv3</a>',
+      'homepage'       => 'https://github.com/itsmng/plugin-workflows',
+      'license'        => '<a href="../plugins/plugin-workflows/LICENSE" target="_blank">GPLv3</a>',
    ];
    return $requirements;
 }
@@ -25,18 +25,18 @@ function plugin_version_skeleton() {
 /**
  * Initialize all classes and generic variables of the plugin
  */
-function plugin_init_skeleton() {
+function plugin_init_workflows() {
    global $PLUGIN_HOOKS, $CFG_GLPI;
 
    // Set the plugin CSRF compliance (required since GLPI 0.84)
-   $PLUGIN_HOOKS['csrf_compliant']['skeleton'] = true;
+   $PLUGIN_HOOKS['csrf_compliant']['workflows'] = true;
 
    // Register profile rights
-   Plugin::registerClass(PluginSkeletonProfile::class, ['addtabon' => 'Profile']);
-   $PLUGIN_HOOKS['change_profile']['skeleton'] = [PluginSkeletonProfile::class, 'changeProfile'];
+   Plugin::registerClass(PluginWorkflowsProfile::class, ['addtabon' => 'Profile']);
+   $PLUGIN_HOOKS['change_profile']['workflows'] = [PluginWorkflowsProfile::class, 'changeProfile'];
 
-   if (Session::haveRight('plugin_skeleton_config', UPDATE)) {
-       $PLUGIN_HOOKS['config_page']['skeleton'] = 'front/config.form.php';
+   if (Session::haveRight('plugin_workflows_config', UPDATE)) {
+       $PLUGIN_HOOKS['config_page']['workflows'] = 'front/config.form.php';
    }
 }
 
@@ -45,11 +45,11 @@ function plugin_init_skeleton() {
  *
  * @return boolean
  */
-function skeleton_check_prerequisites() {
+function workflows_check_prerequisites() {
    $prerequisitesSuccess = true;
 
-   if (version_compare(ITSM_VERSION, SKELETON_ITSMNG_MIN_VERSION, 'lt')) {
-      echo "This plugin requires ITSM >= " . SKELETON_ITSMNG_MIN_VERSION . "<br>";
+   if (version_compare(ITSM_VERSION, WORKFLOWS_ITSMNG_MIN_VERSION, 'lt')) {
+      echo "This plugin requires ITSM >= " . WORKFLOWS_ITSMNG_MIN_VERSION . "<br>";
       $prerequisitesSuccess = false;
    }
 
@@ -62,7 +62,7 @@ function skeleton_check_prerequisites() {
  * @param string $verbose Set true to show all messages (false by default)
  * @return boolean
  */
-function skeleton_check_config($verbose = false) {
+function workflows_check_config($verbose = false) {
    if ($verbose) {
       echo "Checking plugin configuration<br>";
    }

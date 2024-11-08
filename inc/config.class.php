@@ -1,6 +1,6 @@
 <?php
 
-class PluginSkeletonConfig extends CommonDBTM {
+class PluginWorkflowsConfig extends CommonDBTM {
 
     static function install() {
         global $DB;
@@ -80,6 +80,6 @@ SQL;
      * @return void
      */
     public function showConfigForm() {
-        echo "SKELETON CONFIG FORM";
+        echo "WORKFLOWS CONFIG FORM";
     }
 }

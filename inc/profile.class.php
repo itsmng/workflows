@@ -1,6 +1,6 @@
 <?php
 
-class PluginSkeletonProfile extends CommonDBTM {
+class PluginWorkflowsProfile extends CommonDBTM {
 
     static function install() {
         global $DB;
@@ -45,7 +45,7 @@ class PluginSkeletonProfile extends CommonDBTM {
 	 * @return boolean
 	 */
 	static function canCreate() {
-		if (isset($_SESSION["profile"])) return ($_SESSION["profile"]['pluginskeleton'] == 'w');
+		if (isset($_SESSION["profile"])) return ($_SESSION["profile"]['pluginworkflows'] == 'w');
 		return false;
 	}
 
@@ -55,7 +55,7 @@ class PluginSkeletonProfile extends CommonDBTM {
 	 * @return boolean
 	 */
 	static function canView() {
-		if (isset($_SESSION["profile"])) return ($_SESSION["profile"]['pluginskeleton'] == 'w' || $_SESSION["profile"]['pluginskeleton'] == 'r');
+		if (isset($_SESSION["profile"])) return ($_SESSION["profile"]['pluginworkflows'] == 'w' || $_SESSION["profile"]['pluginworkflows'] == 'r');
 		return false;
 	}
 
@@ -102,9 +102,9 @@ class PluginSkeletonProfile extends CommonDBTM {
 		$prof = new self();
 
 		if ($prof->getFromDB($_SESSION['glpiactiveprofile']['id'])) {
-			$_SESSION["glpi_plugin_skeleton_profile"] = $prof->fields;
+			$_SESSION["glpi_plugin_workflows_profile"] = $prof->fields;
 		} else {
-			unset($_SESSION["glpi_plugin_skeleton_profile"]);
+			unset($_SESSION["glpi_plugin_workflows_profile"]);
 		}
 	}
 
@@ -117,7 +117,7 @@ class PluginSkeletonProfile extends CommonDBTM {
 	 */
 	function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
 		if (Session::haveRight("profile", UPDATE) && $item->getType() == 'Profile') {
-			return __('Skeleton', 'skeleton');
+			return __('Workflows', 'workflows');
 		}
 
 		return '';
@@ -155,10 +155,10 @@ class PluginSkeletonProfile extends CommonDBTM {
 	static function getRightsGeneral() {
 		$rights = [
 			[
-				'itemtype'  => 'PluginSkeletonProfile',
-				'label'     => __('Config update', 'pluginskeleton'),
-				'field'     => 'plugin_skeleton_config',
-				'rights'    =>  [UPDATE => __('Allow editing', 'pluginskeleton')],
+				'itemtype'  => 'PluginWorkflowsProfile',
+				'label'     => __('Config update', 'pluginworkflows'),
+				'field'     => 'plugin_workflows_config',
+				'rights'    =>  [UPDATE => __('Allow editing', 'pluginworkflows')],
 				'default'   => 23
             ]
 		];
