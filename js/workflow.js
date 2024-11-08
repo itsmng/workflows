@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
   const BpmnPropertiesPanel = window.BpmnJSPropertiesPanel;
-  console.log(BpmnPropertiesPanel);
   const bpmnModeler = new BpmnJS({
     container: '#canvas',
     propertiesPanel: {
