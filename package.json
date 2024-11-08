@@ -1,0 +1,10 @@
+{
+  "name": "workflows",
+  "version": "1.0.0",
+  "repository": "git@github.com:itsmng/workflows.git",
+  "author": "Antoine Lemarchand <antoine.lemarchand@itsm-ng.com>",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "bpmn-js": "^18.0.0"
+  }
+}

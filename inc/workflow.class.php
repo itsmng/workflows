@@ -49,7 +49,7 @@ class PluginWorkflowsWorkflow extends CommonDBTM
                   `content` LONGTEXT collate utf8_unicode_ci,
                   PRIMARY KEY (`id`)
               ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-            SQL;
+SQL;
 
             $DB->queryOrDie($query, $DB->error());
         }
@@ -65,7 +65,7 @@ class PluginWorkflowsWorkflow extends CommonDBTM
         if ($DB->tableExists($table)) {
             $query = <<<SQL
               DROP TABLE `$table`
-            SQL;
+SQL;
 
             $DB->queryOrDie($query, $DB->error());
         }
@@ -123,10 +123,21 @@ class PluginWorkflowsWorkflow extends CommonDBTM
                             'col_lg' => 12,
                             'col_md' => 12,
                         ],
+                        __('Diagram', 'workflow') => [
+                            'content' => <<<HTML
+                                <div id="canvas" style="height: 600px; width: 100%; border: 1px solid #ccc;"></div>
+                            HTML,
+                            'col_lg' => 12,
+                            'col_md' => 12,
+                        ],
                     ]
                 ]
             ],
         ];
         renderTwigForm($form, '', $this->fields);
+        echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/diagram-js.css');
+        echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/bpmn-font/css/bpmn.css');
+        echo Html::script(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/bpmn-modeler.development.js');
+        echo Html::script(Plugin::getWebDir('workflows') . '/js/workflow.js');
     }
 }
