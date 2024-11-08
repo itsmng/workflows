@@ -38,33 +38,17 @@ if (isset($_POST['add'])) {
    Session::checkRight('entity', UPDATE);
    $workflow->delete($_POST, 1);
    $workflow->redirectToList();
-} else if (isset($_GET['id'])) {
-   Session::checkRight('plugin_workflows', READ);
-
-   Html::header(
-      PluginWorkflowsWorkflow::getTypeName(2),
-      $_SERVER['PHP_SELF'],
-      'admin',
-      'PluginFormcreatorForm',
-      'option'
-   );
-
-   $_GET['id'] = isset($_GET['id']) ? intval($_GET['id']) : -1;
-   $workflow->display($_GET);
-
-   Html::footer();
 } else {
-   Session::checkRight('plugin_workflows', READ);
-
-   Html::header(
+    Html::header(
       PluginWorkflowsWorkflow::getTypeName(2),
       $_SERVER['PHP_SELF'],
       'admin',
-      'PluginFormcreatorForm',
+      PluginWorkflowsWorkflow::class,
       'option'
-   );
+    );
 
-   Search::show(PluginWorkflowsWorkflow::class);
+    $_GET['id'] = isset($_GET['id']) ? intval($_GET['id']) : -1;
+    $workflow->display($_GET);
 
-   Html::footer();
+    Html::footer();
 }

@@ -33,7 +33,7 @@
 
 class PluginWorkflowsWorkflow extends CommonDBTM
 {
-    static $rightname = "plugin_workflows_workflow";
+    static $rightname = "plugin_workflows";
 
     static function install() {
         global $DB;
@@ -87,9 +87,15 @@ class PluginWorkflowsWorkflow extends CommonDBTM
     {
         $menu = [
             'title' => self::getTypeName(2),
-            'page' => Plugin::getWebDir('workflows') . '/front/workflow.form.php',
+            'page' => self::getSearchURL(),
             'icon' => self::getIcon(),
+            'links' => [
+                'search' => PluginWorkflowsWorkflow::getSearchURL(),
+            ],
         ];
+        if (Session::haveRight('plugin_workflows', CREATE)) {
+            $menu['links']['add'] = PluginWorkflowsWorkflow::getFormURL(false);
+        }
 
         return $menu;
     }
