@@ -127,7 +127,7 @@ SQL;
                             'content' => <<<HTML
                                 <div id="bpmn-modeler" class="d-flex w-100">
                                     <div id="canvas" class="flex-grow-1" style="height: 600px; border: 1px solid #ccc;"></div>
-                                    <div id="js-properties-panel" style="border: 1px solid #ccc;"></div>
+                                    <div id="js-properties-panel" style="border: 1px solid #ccc;min-width: 25%;"></div>
                                 </div>
                             HTML,
                             'col_lg' => 12,
