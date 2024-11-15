@@ -36,6 +36,7 @@ function plugin_init_workflows() {
    $PLUGIN_HOOKS['change_profile']['workflows'] = [PluginWorkflowsProfile::class, 'changeProfile'];
 
    if (Session::haveRight('plugin_workflows', READ)) {
+       $PLUGIN_HOOKS['config_page']['workflows'] = 'front/config.form.php';
        $PLUGIN_HOOKS['menu_toadd']['workflows']['admin'] = PluginWorkflowsWorkflow::class;
    }
 }
