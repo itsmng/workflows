@@ -44,7 +44,7 @@ SQL;
         return true;
     }
 
-    static private function getConfigValues() {
+    static public function getConfigValues() {
         global $DB;
 
         $table = self::getTable();
@@ -86,7 +86,6 @@ SQL;
         }
         return true;
     }
-
 
     /**
      * Displays the configuration page for the plugin

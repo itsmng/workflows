@@ -100,6 +100,40 @@ SQL;
         return $menu;
     }
 
+    static function request($url = '/', $method = 'GET', $data = null) {
+        $config = PluginWorkflowsConfig::getConfigValues();
+        $endpoint = $config['api_endpoint'] . '/v1.0' . $url;
+        $key = $config['api_key'];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $endpoint);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+        if ($method == 'POST') {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        }
+        if ($key) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Authorization: Bearer ' . $key,
+            ]);
+        }
+        $result = curl_exec($ch);
+        curl_close($ch);
+        if ($json = json_decode($result, true)) {
+            return $json;
+        }
+        return $result;
+    }
+
+    static function checkConnection() {
+        $return = self::request('/status');
+
+        if (isset($return['ok']) && $return['ok']) {
+            return true;
+        }
+        return false;
+    }
+
     function showForm()
     {
         $form = [
