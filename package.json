@@ -6,7 +6,10 @@
   "license": "GPL-3.0",
   "dependencies": {
     "@bpmn-io/properties-panel": "^3.25.0",
+    "bpmn-client": "^2.2.4",
     "bpmn-js": "^18.0.0",
-    "bpmn-js-properties-panel": "^5.26.0"
+    "bpmn-js-properties-panel": "^5.26.0",
+    "browser-resolve": "^2.0.0",
+    "esmify": "^2.1.1"
   }
 }

@@ -1,3 +1,15 @@
+import { BPMNClient } from 'bpmn-client';
+
+function getBpmnClient() {
+  const API_KEY = '12345';
+  const HOST = 'localhost';
+  const PORT = '3000';
+
+  const server = new BPMNClient(HOST, PORT, API_KEY);
+
+  return server.engine;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const BpmnPropertiesPanel = window.BpmnJSPropertiesPanel;
   const bpmnModeler = new BpmnJS({
@@ -26,3 +38,4 @@ document.addEventListener("DOMContentLoaded", function () {
     </bpmn:definitions>
     `);
 });
+
