@@ -6,8 +6,7 @@ function getBpmnClient() {
   const PORT = '3000';
 
   const server = new BPMNClient(HOST, PORT, API_KEY);
-
-  return server.engine;
+  return server;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -22,20 +21,15 @@ document.addEventListener("DOMContentLoaded", function () {
       BpmnPropertiesPanel.BpmnPropertiesProviderModule,
     ],
   });
-  bpmnModeler.importXML(`
-    <?xml version="1.0" encoding="UTF-8"?>
-    <bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" targetNamespace="http://bpmn.io/schema/bpmn" id="Definitions_1">
-    <bpmn:process id="Process_1" isExecutable="false">
-    <bpmn:startEvent id="StartEvent_1"/>
-    </bpmn:process>
-    <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
-    <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
-    <dc:Bounds height="36.0" width="36.0" x="173.0" y="102.0"/>
-    </bpmndi:BPMNShape>
-    </bpmndi:BPMNPlane>
-    </bpmndi:BPMNDiagram>
-    </bpmn:definitions>
-    `);
+  const modelerWrapper = document.getElementById('bpmn-modeler');
+  const workflowName = modelerWrapper.getAttribute('data-model');
+  const server = getBpmnClient();
+  server.definitions.load(workflowName).then((res) => {
+    if (res.error) {
+      console.error(res.error);
+    } else {
+      bpmnModeler.importXML(res);
+    }
+  });
 });
 
