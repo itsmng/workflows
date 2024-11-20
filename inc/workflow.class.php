@@ -87,7 +87,7 @@ SQL;
     {
         $menu = [
             'title' => self::getTypeName(2),
-            'page' => self::getSearchURL(),
+            'page' => self::getSearchURL(false),
             'icon' => self::getIcon(),
             'links' => [
                 'search' => PluginWorkflowsWorkflow::getSearchURL(),
@@ -138,12 +138,12 @@ SQL;
             ],
         ];
         renderTwigForm($form, '', $this->fields);
-        echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/diagram-js.css');
-        echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/bpmn-js.css');
-        echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/bpmn-font/css/bpmn.css');
-        echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/@bpmn-io/properties-panel/dist/assets/properties-panel.css');
-        echo Html::script(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/bpmn-modeler.development.js');
-        echo Html::script(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js-properties-panel/dist/bpmn-js-properties-panel.umd.js');
-        echo Html::script(Plugin::getWebDir('workflows') . '/js/workflow.js');
+        echo Html::css(Plugin::getWebDir('workflows', false) . '/node_modules/bpmn-js/dist/assets/diagram-js.css');
+        echo Html::css(Plugin::getWebDir('workflows', false) . '/node_modules/bpmn-js/dist/assets/bpmn-js.css');
+        echo Html::css(Plugin::getWebDir('workflows', false) . '/node_modules/bpmn-js/dist/assets/bpmn-font/css/bpmn.css');
+        echo Html::css(Plugin::getWebDir('workflows', false) . '/node_modules/@bpmn-io/properties-panel/dist/assets/properties-panel.css');
+        echo Html::script(Plugin::getWebDir('workflows', false) . '/node_modules/bpmn-js/dist/bpmn-modeler.development.js');
+        echo Html::script(Plugin::getWebDir('workflows', false) . '/node_modules/bpmn-js-properties-panel/dist/bpmn-js-properties-panel.umd.js');
+        echo Html::script(Plugin::getWebDir('workflows', false) . '/js/workflow.js');
     }
 }
