@@ -29,7 +29,22 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error(res.error);
     } else {
       bpmnModeler.importXML(res);
+      bpmnModeler.get('canvas').zoom('fit-viewport');
     }
   });
 });
 
+$(function () {
+  $('#save-diagram').click(function () {
+    const modelerWrapper = document.getElementById('bpmn-modeler');
+    const workflowName = modelerWrapper.getAttribute('data-model');
+    const server = getBpmnClient();
+    server.definitions.save(workflowName).then((res) => {
+      if (res.error) {
+        console.error(res.error);
+      } else {
+        console.log(res);
+      }
+    });
+  });
+});

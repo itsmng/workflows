@@ -163,12 +163,13 @@ SQL;
         ];
         renderTwigForm($form, '', $this->fields);
         echo <<<HTML
-            <div class="container">
+            <div class="container text-center">
                 <h2>Diagram</h2>
                 <div id="bpmn-modeler" class="d-flex w-100 container mt-3" data-model="{$this->fields['name']}">
                     <div id="canvas" class="flex-grow-1" style="height: 600px; border: 1px solid #ccc;"></div>
                     <div id="js-properties-panel" style="border: 1px solid #ccc;min-width: 25%;"></div>
                 </div>
+                <button class="btn btn-secondary mt-3" id="save-diagram">Save</button>
             </div>
         HTML;
         echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/diagram-js.css');
