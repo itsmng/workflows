@@ -21,8 +21,9 @@ SQL;
 
             $initQuery = <<<SQL
               INSERT INTO `$table` (`name`, `value`) VALUES
-                  ('api_endpoint', ''),
-                  ('api_key', '');
+                  ('host', ''),
+                  ('port', ''),
+                  ('key', '');
 SQL;
             $DB->queryOrDie($initQuery, $DB->error());
         }
@@ -60,7 +61,7 @@ SQL;
 
         foreach ($results as $id => $result) {
             $value = $result['value'];
-            if ($result['name'] == 'api_key') {
+            if ($result['name'] == 'key') {
                 $value = Toolbox::sodiumDecrypt($value);
             }
             $results[$result['name']] = $value;
@@ -76,8 +77,8 @@ SQL;
         $table = self::getTable();
         $fields = self::getConfigValues();
 
-        if (isset($values['api_key'])) {
-            $values['api_key'] = Toolbox::sodiumEncrypt($values['api_key']);
+        if (isset($values['key'])) {
+            $values['key'] = Toolbox::sodiumEncrypt($values['key']);
         }
 
         foreach (array_keys($fields) as $key) {
@@ -113,15 +114,20 @@ SQL;
                 PluginWorkflowsWorkflow::getTypeName() => [
                     'visible' => true,
                     'inputs' => [
-                        __('Api endpoint', 'workflows') => [
+                        __('Host', 'workflows') => [
                             'type' => 'text',
-                            'name' => 'api_endpoint',
-                            'value' => $config['api_endpoint'],
+                            'name' => 'host',
+                            'value' => $config['host'],
+                        ],
+                        __('Port', 'workflows') => [
+                            'type' => 'text',
+                            'name' => 'port',
+                            'value' => $config['port'],
                         ],
                         __('Api key', 'workflows') => [
                             'type' => 'text',
-                            'name' => 'api_key',
-                            'value' => $config['api_key'],
+                            'name' => 'key',
+                            'value' => $config['key'],
                         ],
                     ],
                 ],

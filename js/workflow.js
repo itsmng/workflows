@@ -1,11 +1,7 @@
 import { BPMNClient } from 'bpmn-client';
 
 function getBpmnClient() {
-  const API_KEY = '12345';
-  const HOST = 'localhost';
-  const PORT = '3000';
-
-  const server = new BPMNClient(HOST, PORT, API_KEY);
+  const server = new BPMNClient(host, port, key);
   return server;
 }
 

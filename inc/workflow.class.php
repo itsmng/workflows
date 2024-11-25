@@ -140,6 +140,7 @@ SQL;
 
     public function showForm()
     {
+        $config = PluginWorkflowsConfig::getConfigValues();
         $form = [
             'action' => self::getFormURL(),
             'itemtype' => self::getType(),
@@ -176,6 +177,11 @@ SQL;
                     </div>
                     <button class="btn btn-secondary mt-3" id="save-diagram">Save</button>
                 </div>
+                <script>
+                    var host = '{$config['host']}';
+                    var port = '{$config['port']}';
+                    var key = '{$config['key']}';
+                </script>
             HTML;
             echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/diagram-js.css');
             echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/bpmn-js.css');
