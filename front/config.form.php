@@ -1,12 +1,13 @@
 <?php
+
 include("../../../inc/includes.php");
 require_once(Plugin::getPhpDir('workflows') . "/inc/config.class.php");
 
 $plugin = new Plugin();
 
-if($plugin->isActivated("workflows")) {
+if ($plugin->isActivated("workflows")) {
     $config = new PluginWorkflowsConfig();
-    if(isset($_POST["update"])) {
+    if (isset($_POST["update"])) {
         Session::checkRight("plugin_skeleton_config", UPDATE);
         $config::updateConfigValues($_POST);
         Session::addMessageAfterRedirect(__('Settings updated', 'workflows'));

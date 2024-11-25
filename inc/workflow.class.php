@@ -33,9 +33,10 @@
 
 class PluginWorkflowsWorkflow extends CommonDBTM
 {
-    static $rightname = "plugin_workflows";
+    public static $rightname = "plugin_workflows";
 
-    static function install() {
+    public static function install()
+    {
         global $DB;
 
         $table = self::getTable();
@@ -57,7 +58,8 @@ SQL;
         return true;
     }
 
-    static function uninstall() {
+    public static function uninstall()
+    {
         global $DB;
 
         $table = self::getTable();
@@ -73,17 +75,17 @@ SQL;
         return true;
     }
 
-    static function getTypeName($nb = 0)
+    public static function getTypeName($nb = 0)
     {
         return _n('Workflow', 'Workflows', $nb, 'workflow');
     }
 
-    static function getIcon()
+    public static function getIcon()
     {
         return 'fas fa-project-diagram';
     }
 
-    static function getMenuContent(): array
+    public static function getMenuContent(): array
     {
         $menu = [
             'title' => self::getTypeName(2),
@@ -100,7 +102,8 @@ SQL;
         return $menu;
     }
 
-    static function request($url = '/', $method = 'GET', $data = null) {
+    public static function request($url = '/', $method = 'GET', $data = null)
+    {
         $config = PluginWorkflowsConfig::getConfigValues();
         $endpoint = $config['api_endpoint'] . '/v1.0' . $url;
         $key = $config['api_key'];
@@ -125,7 +128,8 @@ SQL;
         return $result;
     }
 
-    static function checkConnection() {
+    public static function checkConnection()
+    {
         $return = self::request('/status');
 
         if (isset($return['ok']) && $return['ok']) {
@@ -134,7 +138,7 @@ SQL;
         return true/*false*/;
     }
 
-    function showForm()
+    public function showForm()
     {
         $form = [
             'action' => self::getFormURL(),
@@ -162,24 +166,26 @@ SQL;
             ],
         ];
         renderTwigForm($form, '', $this->fields);
-        echo <<<HTML
-            <div class="container text-center">
-                <h2>Diagram</h2>
-                <div id="bpmn-modeler" class="d-flex w-100 container mt-3" data-model="{$this->fields['name']}">
-                    <div id="canvas" class="flex-grow-1" style="height: 600px; border: 1px solid #ccc;"></div>
-                    <div id="js-properties-panel" style="border: 1px solid #ccc;min-width: 25%;"></div>
+        if ($this->fields['name']) {
+            echo <<<HTML
+                <div class="container text-center">
+                    <h2>Diagram</h2>
+                    <div id="bpmn-modeler" class="d-flex w-100 container mt-3" data-model="{$this->fields['name']}">
+                        <div id="canvas" class="flex-grow-1" style="height: 600px; border: 1px solid #ccc;"></div>
+                        <div id="js-properties-panel" style="border: 1px solid #ccc;min-width: 25%;"></div>
+                    </div>
+                    <button class="btn btn-secondary mt-3" id="save-diagram">Save</button>
                 </div>
-                <button class="btn btn-secondary mt-3" id="save-diagram">Save</button>
-            </div>
-        HTML;
-        echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/diagram-js.css');
-        echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/bpmn-js.css');
-        echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/bpmn-font/css/bpmn.css');
-        echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/@bpmn-io/properties-panel/dist/assets/properties-panel.css');
+            HTML;
+            echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/diagram-js.css');
+            echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/bpmn-js.css');
+            echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/assets/bpmn-font/css/bpmn.css');
+            echo Html::css(Plugin::getWebDir('workflows') . '/node_modules/@bpmn-io/properties-panel/dist/assets/properties-panel.css');
 
-        echo Html::script(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/bpmn-modeler.development.js');
-        echo Html::script(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js-properties-panel/dist/bpmn-js-properties-panel.umd.js');
+            echo Html::script(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/bpmn-modeler.development.js');
+            echo Html::script(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js-properties-panel/dist/bpmn-js-properties-panel.umd.js');
 
-        echo Html::script(Plugin::getWebDir('workflows') . '/dist/bundle.js');
+            echo Html::script(Plugin::getWebDir('workflows') . '/dist/bundle.js');
+        }
     }
 }

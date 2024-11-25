@@ -36,7 +36,7 @@ class WebService {
                 return response.data;
             }
             catch (err) {
-                console.log('** Connection failed ***', err);
+                return undefined;
             }
         });
     }

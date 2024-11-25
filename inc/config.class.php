@@ -1,8 +1,9 @@
 <?php
 
-class PluginWorkflowsConfig extends CommonDBTM {
-
-    static function install() {
+class PluginWorkflowsConfig extends CommonDBTM
+{
+    public static function install()
+    {
         global $DB;
 
         $table = self::getTable();
@@ -28,7 +29,8 @@ SQL;
         return true;
     }
 
-    static function uninstall() {
+    public static function uninstall()
+    {
         global $DB;
 
         $table = self::getTable();
@@ -44,7 +46,8 @@ SQL;
         return true;
     }
 
-    static public function getConfigValues() {
+    public static function getConfigValues()
+    {
         global $DB;
 
         $table = self::getTable();
@@ -55,7 +58,7 @@ SQL;
 
         $results = iterator_to_array($DB->query($query));
 
-        foreach($results as $id => $result) {
+        foreach ($results as $id => $result) {
             $value = $result['value'];
             if ($result['name'] == 'api_key') {
                 $value = Toolbox::sodiumDecrypt($value);
@@ -66,7 +69,8 @@ SQL;
         return $results;
     }
 
-    static function updateConfigValues($values) {
+    public static function updateConfigValues($values)
+    {
         global $DB;
 
         $table = self::getTable();
@@ -92,7 +96,8 @@ SQL;
      *
      * @return void
      */
-    public function showConfigForm() {
+    public function showConfigForm()
+    {
         $config = self::getConfigValues();
         $form = [
             'action' => self::getFormURL(),

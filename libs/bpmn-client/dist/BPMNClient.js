@@ -276,13 +276,12 @@ class ClientDefinitions {
     }
     load(name) {
         return __awaiter(this, void 0, void 0, function* () {
-            const res = yield this.client.get(encodeURI('definitions/load/' + name), { name });
-            if (res['errors']) {
-                console.log(res['errors']);
-                throw new Error(res['errors']);
+            try {
+              const res = yield this.client.get(encodeURI('definitions/load/' + name), { name });
+              return res;
+            } catch (e) {
+              return null;
             }
-            console.log(res);
-            return res;
         });
     }
     checkErrors(res) {
@@ -290,6 +289,17 @@ class ClientDefinitions {
             console.log(res['errors']);
             throw new Error(res['errors']);
         }
+    }
+    save(name, xml) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const res = yield this.client.post(encodeURI('model/save'), { name, xml, svg: '' });
+            if (res['errors']) {
+                console.log(res['errors']);
+                throw new Error(res['errors']);
+            }
+            console.log(res);
+            return res;
+        });
     }
 }
 exports.ClientDefinitions = ClientDefinitions;
