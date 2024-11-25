@@ -89,7 +89,7 @@ SQL;
     {
         $menu = [
             'title' => self::getTypeName(2),
-            'page' => self::getSearchURL(),
+            'page' => self::getSearchURL(false),
             'icon' => self::getIcon(),
             'links' => [
                 'search' => PluginWorkflowsWorkflow::getSearchURL(),
