@@ -105,8 +105,8 @@ SQL;
     public static function request($url = '/', $method = 'GET', $data = null)
     {
         $config = PluginWorkflowsConfig::getConfigValues();
-        $endpoint = $config['api_endpoint'] . '/v1.0' . $url;
-        $key = $config['api_key'];
+        $endpoint = $config['host'] . '/v1.0' . $url;
+        $key = $config['key'];
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $endpoint);
@@ -191,7 +191,7 @@ SQL;
             echo Html::script(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js/dist/bpmn-modeler.development.js');
             echo Html::script(Plugin::getWebDir('workflows') . '/node_modules/bpmn-js-properties-panel/dist/bpmn-js-properties-panel.umd.js');
 
-            echo Html::script(Plugin::getWebDir('workflows') . '/dist/bundle.js');
+            echo Html::script(Plugin::getWebDir('workflows', false) . '/dist/bundle.js');
         }
     }
 }
