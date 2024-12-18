@@ -1,11 +1,13 @@
 <?php
 
 
-include ("../../../inc/includes.php");
+include("../../../inc/includes.php");
 
 // Check if plugin is activated...
 if (!(new Plugin())->isActivated('workflows')) {
     Html::displayNotFoundError();
+} elseif (!PluginWorkflowsWorkflow::checkConnection()) {
+    Html::displayErrorAndDie(__('Connection to BPMN engine failed', 'workflows'));
 }
 
 $workflow = new PluginWorkflowsWorkflow();
