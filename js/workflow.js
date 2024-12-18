@@ -1,4 +1,10 @@
 import { BPMNClient } from 'bpmn-client';
+import CustomDescriptor from './Custom.json';
+import CustomPropertiesProvider from './CustomPropertiesProvider.js';
+import { BpmnPropertiesPanelModule } from 'bpmn-js-properties-panel';
+import { BpmnPropertiesProviderModule } from 'bpmn-js-properties-panel';
+
+
 
 function getBpmnClient() {
   const server = new BPMNClient(host, port, key);
@@ -6,21 +12,32 @@ function getBpmnClient() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  const BpmnPropertiesPanel = window.BpmnJSPropertiesPanel;
+
+
+  const { BpmnJSPropertiesPanel } = window;
+  
   const viewer = new BpmnJS({
     container: '#canvas',
     propertiesPanel: {
       parent: '#js-properties-panel'
     },
     additionalModules: [
-      BpmnPropertiesPanel.BpmnPropertiesPanelModule,
-      BpmnPropertiesPanel.BpmnPropertiesProviderModule,
+      BpmnPropertiesPanelModule,
+      BpmnPropertiesProviderModule,
+      {
+        __init__: ['customPropertiesProvider'],
+        customPropertiesProvider: ['type', CustomPropertiesProvider]
+      }
     ],
+    moddleExtensions: {
+      custom: CustomDescriptor
+    }
   });
 
   const modelerWrapper = document.getElementById('bpmn-modeler');
   const workflowName = modelerWrapper.getAttribute('data-model');
   const server = getBpmnClient();
+
   server.definitions.load(workflowName).then((res) => {
     let xml = res;
     if (!xml) {
@@ -43,19 +60,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     viewer.importXML(xml);
     viewer.get('canvas').zoom('fit-viewport');
-  })
+  });
 
   $('#save-diagram').click(function () {
     const modelerWrapper = document.getElementById('bpmn-modeler');
     const workflowName = modelerWrapper.getAttribute('data-model');
     const server = getBpmnClient();
+
     viewer.saveXML({ format: true }).then((res) => {
       const source = res.xml;
+      
       server.definitions.save(workflowName, source).then((res) => {
         if (res.error) {
           console.error(res.error);
         } else {
-          console.log(res);
+          console.log('Diagramme sauvegardé avec succès :', res);
         }
       });
     });

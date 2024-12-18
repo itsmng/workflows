@@ -8,12 +8,12 @@ $plugin = new Plugin();
 if ($plugin->isActivated("workflows")) {
     $config = new PluginWorkflowsConfig();
     if (isset($_POST["update"])) {
-        Session::checkRight("plugin_skeleton_config", UPDATE);
+        Session::checkRight("plugin_workflows", UPDATE);
         $config::updateConfigValues($_POST);
         Session::addMessageAfterRedirect(__('Settings updated', 'workflows'));
         Html::back();
     } else {
-        if (!Session::haveRight("plugin_skeleton_config", READ | UPDATE)) {
+        if (!Session::haveRight("plugin_workflows", READ | UPDATE)) {
             Html::displayRightError();
             return;
         }
