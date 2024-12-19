@@ -31,7 +31,7 @@ fi
 
 # Remove useless dev files and directories
 files="
-		composer.json 
+		composer.json
 		composer.lock
 		package.json
 		yarn.lock
@@ -49,6 +49,7 @@ files="
 		.tx
 		.sass-cache
 		tests
+    tools
 	  "
 # Remove useless files and directories
 for file in $files; do
