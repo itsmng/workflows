@@ -102,10 +102,10 @@ SQL;
         return $menu;
     }
 
-    public static function request($url = '/', $method = 'GET', $data = null)
+    public static function request($url = '', $method = 'GET', $data = null)
     {
         $config = PluginWorkflowsConfig::getConfigValues();
-        $endpoint = $config['host'] . '/v1.0' . $url;
+        $endpoint = $config['host'] . ':' . $config['port'] . '/api/' . $url;
         $key = $config['key'];
 
         $ch = curl_init();
@@ -113,11 +113,12 @@ SQL;
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         if ($method == 'POST') {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
         }
         if ($key) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 'Authorization: Bearer ' . $key,
+                'x-api-key: ' . $key,
             ]);
         }
         $result = curl_exec($ch);
@@ -130,7 +131,7 @@ SQL;
 
     public static function checkConnection()
     {
-        $return = self::request('/status');
+        $return = self::request('status');
 
         if (isset($return['ok']) && $return['ok']) {
             return true;
@@ -138,6 +139,17 @@ SQL;
         return true/*false*/;
     }
 
+    public function run($data)
+    {
+        $ret = self::request('engine/start', 'POST', [
+            'data' => $data,
+            'name' => $this->fields['name'],
+            'options' => [],
+            'startNodeId' => null,
+            'userId'=> null,
+        ]);
+        return !empty($ret);
+    }
 
     public function showForm()
     {
