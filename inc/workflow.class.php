@@ -180,31 +180,13 @@ SQL;
             ],
         ];
         renderTwigForm($form, '', $this->fields);
+        $url = 'http://' . $config['host'] . ':' . $config['port'] . '/model/edit/' . $this->fields['name'];
         if ($this->fields['name']) {
             echo <<<HTML
-                <div class="container text-center">
-                    <h2>Diagram</h2>
-                    <div id="bpmn-modeler" class="d-flex w-100 container mt-3" data-model="{$this->fields['name']}">
-                        <div id="canvas" class="flex-grow-1" style="height: 600px; border: 1px solid #ccc;"></div>
-                        <div id="js-properties-panel" style="border: 1px solid #ccc;min-width: 25%;"></div>
-                    </div>
-                    <button class="btn btn-secondary mt-3" id="save-diagram">Save</button>
+                <div class="containter">
+                    <iframe src="{$url}" style="height: 100vh; width: 100%;"></iframe>
                 </div>
-                <script>
-                    var host = '{$config['host']}';
-                    var port = '{$config['port']}';
-                    var key = '{$config['key']}';
-                </script>
             HTML;
-            echo Html::css(Plugin::getWebDir('workflows', false) . '/node_modules/bpmn-js/dist/assets/diagram-js.css');
-            echo Html::css(Plugin::getWebDir('workflows', false) . '/node_modules/bpmn-js/dist/assets/bpmn-js.css');
-            echo Html::css(Plugin::getWebDir('workflows', false) . '/node_modules/bpmn-js/dist/assets/bpmn-font/css/bpmn.css');
-            echo Html::css(Plugin::getWebDir('workflows', false) . '/node_modules/@bpmn-io/properties-panel/dist/assets/properties-panel.css');
-
-            echo Html::script(Plugin::getWebDir('workflows', false) . '/node_modules/bpmn-js/dist/bpmn-modeler.development.js');
-            echo Html::script(Plugin::getWebDir('workflows', false) . '/node_modules/bpmn-js-properties-panel/dist/bpmn-js-properties-panel.umd.js');
-
-            echo Html::script(Plugin::getWebDir('workflows', false) . '/dist/bundle.js');
         }
     }
 }
