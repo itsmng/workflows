@@ -17,7 +17,7 @@ if ($plugin->isActivated("workflows")) {
             Html::displayRightError();
             return;
         }
-        Html::header("Okta", $_SERVER["PHP_SELF"], "config", Plugin::class);
+        Html::header("Workflows", $_SERVER["PHP_SELF"], "config", Plugin::class);
         $config->showConfigForm();
     }
 } else {

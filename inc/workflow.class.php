@@ -180,7 +180,7 @@ SQL;
             ],
         ];
         renderTwigForm($form, '', $this->fields);
-        $url = 'http://' . $config['host'] . ':' . $config['port'] . '/model/edit/' . $this->fields['name'];
+        $url = $config['host'] . ':' . $config['port'] . '/model/edit/' . $this->fields['name'];
         if ($this->fields['name']) {
             echo <<<HTML
                 <div class="containter">
