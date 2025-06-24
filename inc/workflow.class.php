@@ -102,7 +102,7 @@ SQL;
         return $menu;
     }
 
-    public static function request($url = '', $method = 'GET', $data = null)
+    public static function request($url = '', $method = 'GET', $data = null, $async = false)
     {
         $config = PluginWorkflowsConfig::getConfigValues();
         $endpoint = $config['host'] . ':' . $config['port'] . '/api/' . $url;
@@ -110,17 +110,28 @@ SQL;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $endpoint);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, !$async); // no wait if async
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-        if ($method == 'POST') {
+
+        if ($method === 'POST' && $data !== null) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
         }
+
         if ($key) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 'Authorization: Bearer ' . $key,
                 'x-api-key: ' . $key,
             ]);
         }
+
+        if ($async) {
+            curl_setopt($ch, CURLOPT_TIMEOUT_MS, 100); // small timeout to trigger the request
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 100);
+            curl_exec($ch); // do not capture output
+            curl_close($ch);
+            return true;
+        }
+
         $result = curl_exec($ch);
         curl_close($ch);
         if ($json = json_decode($result, true)) {
@@ -147,7 +158,7 @@ SQL;
             'options' => [],
             'startNodeId' => null,
             'userId'=> null,
-        ]);
+        ], true);
         return !empty($ret);
     }
 
