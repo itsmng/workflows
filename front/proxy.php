@@ -9,8 +9,20 @@ if (!(new Plugin())->isActivated('workflows')) {
     Html::displayErrorAndDie(__('Connection to BPMN engine failed', 'workflows'));
 }
 
+/** 
+ * Check if the request is secure (HTTPS)
+ * Port check is necessary to work with IIS
+ * 
+ * @return boolean
+ */
+function isSecure() {
+    return
+        (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || $_SERVER['SERVER_PORT'] == 443;
+}
+
 $path = $_GET['path'] ?? '/';
-$proxySelf = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . Plugin::getWebDir('workflows') . '/front/proxy.php';
+$proxySelf = (isSecure() ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . Plugin::getWebDir('workflows') . '/front/proxy.php';
 $config = PluginWorkflowsConfig::getConfigValues();
 
 $endpoint = $config['host'] . ':' . $config['port'] . $path;

@@ -9,7 +9,7 @@ define('WORKFLOWS_ITSMNG_MIN_VERSION', '2.0');
 /**
  * Define the plugin's version and informations
  *
- * @return Array [name, version, author, homepage, license, minGlpiVersion]
+ * @return array [name, version, author, homepage, license, minGlpiVersion]
  */
 function plugin_version_workflows()
 {
