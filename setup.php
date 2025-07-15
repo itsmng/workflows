@@ -2,14 +2,14 @@
 
 global $CFG_GLPI;
 // Version of the plugin (major.minor.bugfix)
-define('WORKFLOWS_VERSION', '1.0.0');
+define('WORKFLOWS_VERSION', '1.0.1');
 
 define('WORKFLOWS_ITSMNG_MIN_VERSION', '2.0');
 
 /**
  * Define the plugin's version and informations
  *
- * @return Array [name, version, author, homepage, license, minGlpiVersion]
+ * @return array [name, version, author, homepage, license, minGlpiVersion]
  */
 function plugin_version_workflows()
 {

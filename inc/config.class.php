@@ -16,17 +16,23 @@ class PluginWorkflowsConfig extends CommonDBTM
                   `value` TEXT collate utf8_unicode_ci default NULL,
                   PRIMARY KEY (`id`)
               ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-SQL;
+            SQL;
             $DB->queryOrDie($query, $DB->error());
 
             $initQuery = <<<SQL
               INSERT INTO `$table` (`name`, `value`) VALUES
                   ('host', ''),
                   ('port', ''),
-                  ('key', '');
-SQL;
+                  ('key', ''),
+                  ('use_proxy', 0);
+            SQL;
             $DB->queryOrDie($initQuery, $DB->error());
         }
+        if (!$DB->fieldExists($table, 'use_proxy')) {
+            $query = "INSERT INTO `$table` (`name`, `value`) VALUES ('use_proxy', '0')";
+            $DB->queryOrDie($query, $DB->error());
+        }
+        
         return true;
     }
 
@@ -129,6 +135,11 @@ SQL;
                             'name' => 'key',
                             'value' => $config['key'],
                         ],
+                        __('Use proxy', 'workflows') => [
+                            'type' => 'checkbox',
+                            'name' => 'use_proxy',
+                            'value' => $config['use_proxy'] ?? 0,
+                        ]
                     ],
                 ],
             ],

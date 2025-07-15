@@ -191,7 +191,12 @@ SQL;
             ],
         ];
         renderTwigForm($form, '', $this->fields);
-        $url = $config['host'] . ':' . $config['port'] . '/model/edit/' . $this->fields['name'];
+        
+        if ($config['use_proxy']) {
+            $url = Plugin::getWebDir('workflows') . '/front/proxy.php?path=' . urlencode('/model/edit/' . $this->fields['name']);
+        } else {
+            $url = $config['host'] . ':' . $config['port'] . '/model/edit/' . $this->fields['name'];
+        }
         if ($this->fields['name']) {
             echo <<<HTML
                 <div class="containter">
