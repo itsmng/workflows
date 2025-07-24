@@ -194,15 +194,36 @@ SQL;
         
         if ($config['use_proxy']) {
             $url = Plugin::getWebDir('workflows') . '/front/proxy.php?path=' . urlencode('/model/edit/' . $this->fields['name']);
+            if ($this->fields['name']) {
+                echo <<<HTML
+                    <div class="containter">
+                        <iframe id="workflow-iframe" src="{$url}" style="height: 100vh; width: 100%;"></iframe>
+                    </div>
+                    <script>
+                        $(function() {
+                            if (window.location.protocol === 'https:') {
+                                var iframe = $('#workflow-iframe');
+                                var src = iframe.attr('src');
+                                if (src.indexOf('?') === -1) {
+                                    src += '?https';
+                                } else {
+                                    src += '&https';
+                                }
+                                iframe.attr('src', src);
+                            }
+                        });
+                    </script>
+                HTML;
+            }
         } else {
             $url = $config['host'] . ':' . $config['port'] . '/model/edit/' . $this->fields['name'];
-        }
-        if ($this->fields['name']) {
-            echo <<<HTML
-                <div class="containter">
-                    <iframe src="{$url}" style="height: 100vh; width: 100%;"></iframe>
-                </div>
-            HTML;
+            if ($this->fields['name']) {
+                echo <<<HTML
+                    <div class="containter">
+                        <iframe src="{$url}" style="height: 100vh; width: 100%;"></iframe>
+                    </div>
+                HTML;
+            }
         }
     }
 }
