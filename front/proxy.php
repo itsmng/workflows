@@ -120,7 +120,7 @@ $rewriteCallback = function ($matches) use ($proxySelf, $path) {
     
     $resolvedPath = resolve_relative_url($originalUrl, $path);
     
-    $newUrl = $proxySelf . '?path=' . urlencode($resolvedPath);
+    $newUrl = $proxySelf . '?path=' . urlencode($resolvedPath) . (isSecure() ? '&https' : '');
     
     // For HTML: $matches[1] = '<a href=', $matches[2] = '"', $matches[4] = '"'
     // For CSS:  $matches[1] = 'url(', $matches[2] = '"', $matches[4] = '")'
