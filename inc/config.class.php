@@ -145,5 +145,54 @@ SQL;
             ],
         ];
         renderTwigForm($form, '', $this->fields);
+        
+        // BPMN server status check view
+        echo '<hr>';
+        echo '<div id="bpmn_status">';
+        echo '<button id="check_bpmn_status" class="btn btn-secondary">'. __('Check BPMN Server Connection','workflows') .'</button>';
+        echo '<div id="bpmn_status_result" style="margin-top:10px;"></div>';
+        echo '</div>';
+        echo '<script>';
+        echo <<<JS
+        (function() {
+          $('#check_bpmn_status').on('click', function() {
+            $('#bpmn_status_result').html("<em>" + __('Loading...','workflows') + "</em>");
+            const host = $('input[name="host"]').val();
+            const port = $('input[name="port"]').val();
+            const useProxy = $('input[name="use_proxy"]').is(':checked');
+            let apiUrl;
+            if (useProxy) {
+                apiUrl = '/plugins/workflows/front/proxy.php?path=' + encodeURIComponent('/api/status');
+            } else {
+                apiUrl = host + (port ? ':' + port : '') + '/api/status';
+            }
+            fetch(apiUrl)
+              .then(function(response) {
+                if (!response.ok) { throw new Error(response.statusText); }
+                return response.json();
+              })
+              .then(function(data) {
+                let html;
+                if (data.status) {
+                  html = '<ul>' +
+                    '<li>' + __('Version:', 'workflows') + ' ' + data.status.version + '</li>' +
+                    '<li>' + __('Engine Running:', 'workflows') + ' ' + data.status.engineRunning + '</li>' +
+                    '<li>' + __('Engine Calls:', 'workflows') + ' ' + data.status.engineCalls + '</li>' +
+                    '<li>' + __('Memory Usage:', 'workflows') + ' ' + (data.status.memoryUsage !== null ? data.status.memoryUsage : '---') + '</li>' +
+                    '</ul>';
+                } else if (data.error) {
+                  html = '<span class="error">' + data.error + '</span>';
+                } else {
+                  html = '<span class="error">' + __('Invalid response','workflows') + '</span>';
+                }
+                $('#bpmn_status_result').html(html);
+              })
+              .catch(function(error) {
+                $('#bpmn_status_result').html('<span class="error">' + error.toString() + ' (Check console for details)</span>');
+              });
+          });
+        })();
+        JS;
+        echo '</script>';
     }
 }
