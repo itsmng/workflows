@@ -165,32 +165,6 @@ SQL;
     public function showForm()
     {
         $config = PluginWorkflowsConfig::getConfigValues();
-        $form = [
-            'action' => self::getFormURL(),
-            'itemtype' => self::getType(),
-            'content' => [
-                $this->getTypeName() => [
-                    'visible' => true,
-                    'inputs' => [
-                        __('Name') => [
-                            'type' => 'text',
-                            'name' => 'name',
-                            'value' => $this->fields['name'] ?? '',
-                            'col_lg' => 12,
-                            'col_md' => 12,
-                        ],
-                        __('Description') => [
-                            'type' => 'textarea',
-                            'name' => 'description',
-                            'value' => $this->fields['description'] ?? '',
-                            'col_lg' => 12,
-                            'col_md' => 12,
-                        ],
-                    ]
-                ]
-            ],
-        ];
-        renderTwigForm($form, '', $this->fields);
         
         if ($config['use_proxy']) {
             $url = Plugin::getWebDir('workflows') . '/front/proxy.php?path=' . urlencode('/model/edit/' . $this->fields['name']);
@@ -222,7 +196,33 @@ SQL;
                     <div class="containter">
                         <iframe src="{$url}" style="height: 100vh; width: 100%;"></iframe>
                     </div>
-                HTML;
+                    HTML;
+                    $form = [
+                        'action' => self::getFormURL(),
+                        'itemtype' => self::getType(),
+                        'content' => [
+                            $this->getTypeName() => [
+                                'visible' => true,
+                                'inputs' => [
+                                    __('Name') => [
+                                        'type' => 'text',
+                                        'name' => 'name',
+                                        'value' => $this->fields['name'] ?? '',
+                                        'col_lg' => 12,
+                                        'col_md' => 12,
+                                    ],
+                                    __('Description') => [
+                                        'type' => 'textarea',
+                                        'name' => 'description',
+                                        'value' => $this->fields['description'] ?? '',
+                                        'col_lg' => 12,
+                                        'col_md' => 12,
+                                    ],
+                                ]
+                            ]
+                        ],
+                    ];
+                    renderTwigForm($form, '', $this->fields);
             }
         }
     }
