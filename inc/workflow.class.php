@@ -165,10 +165,10 @@ SQL;
     public function showForm()
     {
         $config = PluginWorkflowsConfig::getConfigValues();
-        
-        if ($config['use_proxy']) {
-            $url = Plugin::getWebDir('workflows') . '/front/proxy.php?path=' . urlencode('/model/edit/' . $this->fields['name']);
-            if ($this->fields['name']) {
+
+        if (!empty($this->fields['name'])) {
+            if ($config['use_proxy']) {
+                $url = Plugin::getWebDir('workflows') . '/front/proxy.php?path=' . urlencode('/model/edit/' . $this->fields['name']);
                 echo <<<HTML
                     <div class="containter">
                         <iframe id="workflow-iframe" src="{$url}" style="height: 100vh; width: 100%;"></iframe>
@@ -188,42 +188,42 @@ SQL;
                         });
                     </script>
                 HTML;
-            }
-        } else {
-            $url = $config['host'] . ':' . $config['port'] . '/model/edit/' . $this->fields['name'];
-            if ($this->fields['name']) {
+            } else {
+                $url = $config['host'] . ':' . $config['port'] . '/model/edit/' . $this->fields['name'];
                 echo <<<HTML
                     <div class="containter">
                         <iframe src="{$url}" style="height: 100vh; width: 100%;"></iframe>
                     </div>
                     HTML;
-                    $form = [
-                        'action' => self::getFormURL(),
-                        'itemtype' => self::getType(),
-                        'content' => [
-                            $this->getTypeName() => [
-                                'visible' => true,
-                                'inputs' => [
-                                    __('Name') => [
-                                        'type' => 'text',
-                                        'name' => 'name',
-                                        'value' => $this->fields['name'] ?? '',
-                                        'col_lg' => 12,
-                                        'col_md' => 12,
-                                    ],
-                                    __('Description') => [
-                                        'type' => 'textarea',
-                                        'name' => 'description',
-                                        'value' => $this->fields['description'] ?? '',
-                                        'col_lg' => 12,
-                                        'col_md' => 12,
-                                    ],
-                                ]
-                            ]
-                        ],
-                    ];
-                    renderTwigForm($form, '', $this->fields);
             }
         }
+
+        $form = [
+            'action' => self::getFormURL(),
+            'itemtype' => self::getType(),
+            'content' => [
+                $this->getTypeName() => [
+                    'visible' => true,
+                    'inputs' => [
+                        __('Name') => [
+                            'type' => 'text',
+                            'name' => 'name',
+                            'value' => $this->fields['name'] ?? '',
+                            'col_lg' => 12,
+                            'col_md' => 12,
+                            'required' => true,
+                        ],
+                        __('Description') => [
+                            'type' => 'textarea',
+                            'name' => 'description',
+                            'value' => $this->fields['description'] ?? '',
+                            'col_lg' => 12,
+                            'col_md' => 12,
+                        ],
+                    ]
+                ]
+            ],
+        ];
+        renderTwigForm($form, '', $this->fields);
     }
 }
