@@ -198,29 +198,41 @@ SQL;
             }
         }
 
+        $inputs = [
+            __('Name') => [
+                'type' => 'text',
+                'name' => 'name',
+                'value' => $this->fields['name'] ?? '',
+                'col_lg' => 12,
+                'col_md' => 12,
+                'required' => true,
+            ],
+            __('Description') => [
+                'type' => 'textarea',
+                'name' => 'description',
+                'value' => $this->fields['description'] ?? '',
+                'col_lg' => 12,
+                'col_md' => 12,
+            ],
+        ];
+
+        // Add console access field if workflow exists and host is configured
+        if (!empty($this->fields['name']) && !empty($config['host'])) {
+            $consoleUrl = $config['host'] . ':3000';
+            $inputs[__('Console Access', 'workflows')] = [
+                'after' => '<a href="' . htmlspecialchars($consoleUrl) . '" target="_blank" class="btn btn-primary btn-sm ml-2">
+                    <i class="fas fa-external-link-alt"></i> ' . __('Open Console', 'workflows') . '
+                </a>',
+            ];
+        }
+
         $form = [
             'action' => self::getFormURL(),
             'itemtype' => self::getType(),
             'content' => [
                 $this->getTypeName() => [
                     'visible' => true,
-                    'inputs' => [
-                        __('Name') => [
-                            'type' => 'text',
-                            'name' => 'name',
-                            'value' => $this->fields['name'] ?? '',
-                            'col_lg' => 12,
-                            'col_md' => 12,
-                            'required' => true,
-                        ],
-                        __('Description') => [
-                            'type' => 'textarea',
-                            'name' => 'description',
-                            'value' => $this->fields['description'] ?? '',
-                            'col_lg' => 12,
-                            'col_md' => 12,
-                        ],
-                    ]
+                    'inputs' => $inputs
                 ]
             ],
         ];
