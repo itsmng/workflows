@@ -168,7 +168,7 @@ SQL;
 
         if (!empty($this->fields['name'])) {
             if ($config['use_proxy']) {
-                $url = Plugin::getWebDir('workflows') . '/front/proxy.php?path=' . urlencode('/model/edit/' . $this->fields['name']);
+                $url = Plugin::getWebDir('workflows') . '/front/proxy.php' . '/model/edit/' . $this->fields['name'];
                 echo <<<HTML
                     <div class="containter">
                         <iframe id="workflow-iframe" src="{$url}" style="height: 100vh; width: 100%;"></iframe>

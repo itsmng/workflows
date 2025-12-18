@@ -1,6 +1,16 @@
 <?php
 
+// Capture body early and clear $_POST to avoid GLPI CSRF/referer guards
+// that would redirect before we can proxy. We restore after includes.
+$__proxy_raw_body = file_get_contents('php://input');
+$__proxy_post_backup = $_POST;
+$_POST = [];
+define('DO_NOT_CHECK_HTTP_REFERER', 1);
+
 include("../../../inc/includes.php");
+
+// Restore original POST superglobal
+$_POST = $__proxy_post_backup;
 
 // Check if plugin is activated...
 if (!(new Plugin())->isActivated('workflows')) {
@@ -21,8 +31,24 @@ function isSecure() {
         || $_SERVER['SERVER_PORT'] == 443 || isset($_REQUEST['https']);
 }
 
-$path = $_GET['path'] ?? '/';
-$proxySelf = (isSecure() ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . Plugin::getWebDir('workflows') . '/front/proxy.php';
+$basePath = Plugin::getWebDir('workflows') . '/front/proxy.php';
+$proxySelf = (isSecure() ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $basePath;
+
+// Parse the request URI to extract the path after proxy.php
+$requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$basePath = rtrim($basePath, '/');
+if (strpos($requestUri, $basePath) === 0) {
+    $path = substr($requestUri, strlen($basePath));
+    // Ensure path starts with /
+    if (empty($path)) {
+        $path = '/';
+    } elseif ($path[0] !== '/') {
+        $path = '/' . $path;
+    }
+} else {
+    $path = '/';
+}
+
 $config = PluginWorkflowsConfig::getConfigValues();
 
 $endpoint = $config['host'] . ':' . $config['port'] . $path;
@@ -55,7 +81,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 
 if ($method === 'POST' || $method === 'PUT' || $method === 'PATCH') {
-    $requestBody = file_get_contents('php://input');
+    $requestBody = $__proxy_raw_body;
     curl_setopt($ch, CURLOPT_POSTFIELDS, $requestBody);
     if (isset($_SERVER['CONTENT_TYPE'])) {
         curl_setopt($ch, CURLOPT_HTTPHEADER, array_merge($forwardedHeaders, ['Content-Type: ' . $_SERVER['CONTENT_TYPE']]));
@@ -120,7 +146,7 @@ $rewriteCallback = function ($matches) use ($proxySelf, $path) {
     
     $resolvedPath = resolve_relative_url($originalUrl, $path);
     
-    $newUrl = $proxySelf . '?path=' . urlencode($resolvedPath) . (isSecure() ? '&https' : '');
+    $newUrl = $proxySelf . $resolvedPath . (isSecure() ? '?https' : '');
     
     // For HTML: $matches[1] = '<a href=', $matches[2] = '"', $matches[4] = '"'
     // For CSS:  $matches[1] = 'url(', $matches[2] = '"', $matches[4] = '")'

@@ -162,7 +162,7 @@ SQL;
             const useProxy = $('input[name="use_proxy"]').is(':checked');
             let apiUrl;
             if (useProxy) {
-                apiUrl = '/plugins/workflows/front/proxy.php?path=' + encodeURIComponent('/api/status');
+                apiUrl = '/plugins/workflows/front/proxy.php' + '/api/status';
             } else {
                 apiUrl = host + (port ? ':' + port : '') + '/api/status';
             }
