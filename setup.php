@@ -2,7 +2,7 @@
 
 global $CFG_GLPI;
 // Version of the plugin (major.minor.bugfix)
-define('WORKFLOWS_VERSION', '1.0.1');
+define('WORKFLOWS_VERSION', '1.0.2');
 
 define('WORKFLOWS_ITSMNG_MIN_VERSION', '2.0');
 
