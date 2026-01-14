@@ -1,0 +1,5 @@
+msgid "Console Access"
+msgstr "Accès à la console"
+
+msgid "Open Console"
+msgstr "Ouvrir la console"

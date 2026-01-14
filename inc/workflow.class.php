@@ -218,7 +218,7 @@ SQL;
 
         // Add console access field if workflow exists and host is configured
         if (!empty($this->fields['name']) && !empty($config['host'])) {
-            $consoleUrl = $config['host'] . ':3000';
+            $consoleUrl = $config['host'] . ':' . $config['port'];
             $inputs[__('Console Access', 'workflows')] = [
                 'after' => '<a href="' . htmlspecialchars($consoleUrl) . '" target="_blank" class="btn btn-primary btn-sm ml-2">
                     <i class="fas fa-external-link-alt"></i> ' . __('Open Console', 'workflows') . '
