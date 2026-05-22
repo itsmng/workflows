@@ -17,7 +17,7 @@ function plugin_version_workflows()
        'name'           => 'Workflows Plugin',
        'version'        => WORKFLOWS_VERSION,
        'author'         => 'ITSMNG Team',
-       'homepage'       => 'https://github.com/itsmng/plugin-workflows',
+       'homepage'       => 'https://github.com/itsmng/workflows',
        'license'        => '<a href="../plugins/plugin-workflows/LICENSE" target="_blank">GPLv3</a>',
     ];
     return $requirements;
